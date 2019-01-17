@@ -1,1 +1,1 @@
-FROM phusion/baseimage:v0.11
+FROM phusion/baseimage:0.11
