@@ -7,7 +7,7 @@ if [ ! -z "$SSH_ENABLE" ] && [ "${SSH_ENABLE,,}" = "true" ]; then
         echo -e "${SSH_USERS}" > /secrets/ssh-users
     fi
     chmod 0600 /secrets/ssh-users
-    /usr/bin/add-users.sh /secrets/ssh-users
+    /usr/bin/add-users /secrets/ssh-users
     
     ## Enable service
     rm -f /etc/service/sshd/down
