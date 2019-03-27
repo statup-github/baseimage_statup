@@ -14,7 +14,7 @@ RUN update-locale
 COPY add-users.sh /usr/bin/add-users
 RUN chmod a+x /usr/bin/add-users
 
-COPY enable_ssh.sh /etc/my_init.d/enable-ssh.sh
+COPY enable-ssh.sh /etc/my_init.d/enable-ssh.sh
 RUN chmod u+x /etc/my_init.d/enable-ssh.sh
 
 RUN apt-get update \
