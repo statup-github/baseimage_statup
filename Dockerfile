@@ -1,6 +1,6 @@
 FROM phusion/baseimage:0.11
 LABEL maintainer="Stefan Fritsch <stefan.fritsch@stat-up.com>"
-LABEL build="2019-03-27"
+LABEL build="2019-04-17"
 
 ENV LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
