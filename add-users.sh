@@ -2,7 +2,7 @@
 ## Add users based on a file with random passwords
 ## File syntax:
 ##
-## <username>:<uid and gid>:<passwd hash from mkpasswd -m sha-512>:<homedir>:<full name>:<shell>
+## <username>:<uid (=gid)>:<passwd hash from mkpasswd -m sha-512>:<homedir>:<full name>:<shell>
 ##
 ## Everything but the username is optional
 ##
