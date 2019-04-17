@@ -29,10 +29,9 @@ while IFS=: read u uid pw homedir gecos shell; do
     shell="${shell:-/bin/bash}"
     homedir="${homedir:-/home/$u}"
 
+    groupadd -g "$gid" "$u"
     useradd  -e "$yesterday" -m -d "$homedir" -c "$gecos" \
              -u "$uid" -g "$gid" -p "$pw" -s "$shell" "$u"
-
-    groupadd -g "$gid" "$u"
 
 done < <(awk -F: '$1 !~ names && $2 !~ uids' names="$names" uids="$uids" "$nf")
 
