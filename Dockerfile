@@ -13,6 +13,7 @@ RUN echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen \
 RUN update-locale
 
 COPY ssh_trusted_ca.pub /etc/ssh/ssh_trusted_ca.pub
+RUN rm /etc/ssh/ssh_host_*_key*
 
 COPY add-users.sh /usr/bin/add-users
 RUN chmod a+x /usr/bin/add-users
