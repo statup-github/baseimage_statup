@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ ! -z "$SSH_ENABLE" ] && [ "${SSH_ENABLE,,}" = "true" ]; then
 
@@ -11,7 +11,7 @@ if [ ! -z "$SSH_ENABLE" ] && [ "${SSH_ENABLE,,}" = "true" ]; then
     
     ## Enable service
     rm -f /etc/service/sshd/down
-    ssh-keygen -P "" -t dsa -f /etc/ssh/ssh_host_dsa_key
+    yes y | ssh-keygen -P "" -t dsa -f /etc/ssh/ssh_host_dsa_key
     
     ## Accept certificate
     sed -i 's;^AuthorizedPrincipalsFile.*;# AuthorizedPrincipalsFile %h/.ssh/authorized_principals;g' /etc/ssh/sshd_config
