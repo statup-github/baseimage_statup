@@ -4,13 +4,17 @@ if [ ! -z "$SSH_ENABLE" ] && [ "${SSH_ENABLE,,}" = "true" ]; then
 
     ## Add users
     if [ ! -z "$SSH_USERS" ]; then
+        mkdir -p /secrets
+        touch /secrets/ssh-users
+        chmod 0600 /secrets/ssh-users
         echo -e "${SSH_USERS}" > /secrets/ssh-users
     fi
-    chmod 0600 /secrets/ssh-users
+    
     /usr/bin/add-users /secrets/ssh-users
     
     ## Enable service
     rm -f /etc/service/sshd/down
+    yes y | ssh-keygen -P "" -t rsa -f /etc/ssh/ssh_host_rsa_key
     yes y | ssh-keygen -P "" -t dsa -f /etc/ssh/ssh_host_dsa_key
     
     ## Accept certificate
