@@ -20,7 +20,7 @@ RUN chmod u+x /etc/my_init.d/enable-ssh.sh
 
 RUN apt-get update \
   && apt-get upgrade -y -o Dpkg::Options::="--force-confold" \
-  && apt-get install -y --no-install-recommends iputils-ping nano wget procps unzip zip curl makepasswd \
+  && apt-get install -y --no-install-recommends iputils-ping nano wget procps unzip zip curl makepasswd whois \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 CMD ["/sbin/my_init"]
