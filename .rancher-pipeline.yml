@@ -4,8 +4,11 @@ stages:
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
       buildContext: .
-      tag: stefanfritsch/baseimage_statup:${CICD_GIT_BRANCH}-${CICD_EXECUTION_SEQUENCE}
+      tag: stefanfritsch/baseimage_statup:${CICD_GIT_BRANCH}.${CICD_EXECUTION_SEQUENCE}
       pushRemote: true
       registry: index.docker.io
 timeout: 60
-branch: {}
+branch:
+  include:
+  - "1.0"
+notification: {}
