@@ -1,3 +1,5 @@
 #!/bin/bash -e
 
-find /etc/my_init.d/run_first -type f -executable -exec '{}' ';'
+if [ -d "/etc/my_init.d/run_first" ]; then
+  find /etc/my_init.d/run_first -type f -executable -exec '{}' ';'
+fi
