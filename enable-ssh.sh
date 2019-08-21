@@ -14,11 +14,11 @@ if [ ! -z "$SSH_ENABLE" ] && [ "${SSH_ENABLE,,}" = "true" ]; then
     
     ## Enable service
     rm -f /etc/service/sshd/down
-    if [[ ! -e /etc/ssh/ssh_host_rsa_key || -w /etc/ssh/ssh_host_rsa_key ]]; then
+    if [[ (! -e /etc/ssh/ssh_host_rsa_key || -w /etc/ssh/ssh_host_rsa_key) \
+       && (! -e /etc/ssh/ssh_host_dsa_key || -w /etc/ssh/ssh_host_dsa_key) ]]; then
         yes y | ssh-keygen -P "" -t rsa -f /etc/ssh/ssh_host_rsa_key
-    fi
-    if [[ ! -e /etc/ssh/ssh_host_dsa_key || -w /etc/ssh/ssh_host_dsa_key ]]; then
         yes y | ssh-keygen -P "" -t dsa -f /etc/ssh/ssh_host_dsa_key
+        echo "regenerated host keys" > /root/regenerated_host_keys
     fi
     
     ## Accept certificate
