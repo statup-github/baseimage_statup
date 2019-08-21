@@ -21,6 +21,12 @@ RUN chmod a+x /usr/bin/add-users
 COPY enable-ssh.sh /etc/my_init.d/enable-ssh.sh
 RUN chmod u+x /etc/my_init.d/enable-ssh.sh
 
+COPY 000_run_first.sh /etc/my_init.d/000_run_first.sh
+RUN chmod u+x /etc/my_init.d/000_run_first.sh
+
+COPY zzz_run_last.sh /etc/my_init.d/zzz_run_last.sh
+RUN chmod u+x /etc/my_init.d/zzz_run_last.sh
+
 RUN apt-get update \
   && apt-get upgrade -y -o Dpkg::Options::="--force-confold" \
   && apt-get install -y --no-install-recommends iputils-ping nano wget procps unzip zip curl makepasswd whois \
