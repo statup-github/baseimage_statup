@@ -18,14 +18,10 @@ COPY ssh_trusted_ca.pub /etc/ssh/ssh_trusted_ca.pub
 COPY add-users.sh /usr/bin/add-users
 RUN chmod a+x /usr/bin/add-users
 
-COPY enable-ssh.sh /etc/my_init.d/enable-ssh.sh
-RUN chmod u+x /etc/my_init.d/enable-ssh.sh
-
-COPY 000_run_first.sh /etc/my_init.d/000_run_first.sh
-RUN chmod u+x /etc/my_init.d/000_run_first.sh
-
-COPY zzz_run_last.sh /etc/my_init.d/zzz_run_last.sh
-RUN chmod u+x /etc/my_init.d/zzz_run_last.sh
+COPY enable-ssh.sh 000_run_first.sh zzz_run_last.sh /etc/my_init.d/
+RUN chmod u+x /etc/my_init.d/enable-ssh.sh.sh \
+              /etc/my_init.d/000_run_first.sh \
+              /etc/my_init.d/zzz_run_last.sh
 
 RUN apt-get update \
   && apt-get upgrade -y -o Dpkg::Options::="--force-confold" \
