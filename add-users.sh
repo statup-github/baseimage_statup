@@ -2,7 +2,7 @@
 ## Add users based on a file with random passwords
 ## File syntax:
 ##
-## <username>:<uid (=gid)>:<passwd hash from mkpasswd -m sha-512>:<homedir>:<full name>:<shell>
+## <username>:<uid (=gid)>:<passwd hash from mkpasswd -m sha-512>:<homedir>:<full name>:<shell>:<additional,groups,comma,separated>
 ##
 ## Everything but the username is optional
 ##
@@ -20,7 +20,7 @@ yesterday=$(date -d yesterday +%Y-%m-%d)
 # If the UID is not specified apply UIDs in the 2000001... range
 i=2000000
 
-while IFS=: read u uid pw homedir gecos shell; do
+while IFS=: read u uid pw homedir gecos shell addgroups; do
     ((i++))
     uid="${uid:-$i}"   
     gid="$uid"
@@ -32,6 +32,9 @@ while IFS=: read u uid pw homedir gecos shell; do
     groupadd -g "$gid" "$u"
     useradd  -m -d "$homedir" -c "$gecos" \
              -u "$uid" -g "$gid" -p "$pw" -s "$shell" "$u"
+    
+    if [[ ! -z "$addgroups" ]]; then
+       usermod -a -G ${addgroups} "$u"
 
 done < <(awk -F: '$1 !~ names && $2 !~ uids' names="$names" uids="$uids" "$nf")
 
