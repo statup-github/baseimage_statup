@@ -2,9 +2,12 @@
 ## Add users based on a file with random passwords
 ## File syntax:
 ##
-## <username>:<uid (=gid)>:<passwd hash from mkpasswd -m sha-512>:<homedir>:<full name>:<shell>:<additional,groups,comma,separated>
+## <1: username>:<2: uid (=gid)>:<3: passwd hash from mkpasswd -m sha-512>:<4: homedir>:<5: full name>:<6: shell>:<7: additional,groups,comma,separated>
 ##
 ## Everything but the username is optional
+##
+## e.g.
+## me.myself:::/home/someone:Myers::root,wheel
 ##
 # get newusers file from first arg on cmd line or default to 'newusers.txt'
 nf="${1:-newusers.txt}"
