@@ -10,7 +10,7 @@
 ## me.myself:::/home/someone:Myers::root,wheel
 ##
 # get newusers file from first arg on cmd line or default to 'newusers.txt'
-nf="${1:-newusers.txt}"
+nf="${1:-/secrets/users}"
 
 # get existing usernames and uids.
 names="^($(getent passwd | cut -d: -f1 | paste -sd'|'))$"
