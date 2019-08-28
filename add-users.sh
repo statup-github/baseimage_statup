@@ -38,6 +38,7 @@ while IFS=: read u uid pw homedir gecos shell addgroups; do
     
     if [[ ! -z "$addgroups" ]]; then
        usermod -a -G ${addgroups} "$u"
+    fi
 
 done < <(awk -F: '$1 !~ names && $2 !~ uids' names="$names" uids="$uids" "$nf")
 
