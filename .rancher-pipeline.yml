@@ -2,7 +2,7 @@ stages:
 - name: docker on tag
   steps:
   - runScriptConfig:
-      image: gcr.io/kaniko-project/executor:debug
+      image: stefanfritsch/kaniko-maximizer_statup:latest
       shellScript: |-
         #!/bin/sh
         /kaniko/build-image.sh
