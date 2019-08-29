@@ -3,7 +3,10 @@ stages:
   steps:
   - runScriptConfig:
       image: stefanfritsch/kaniko-maximizer_statup:latest
-      shellScript: /kaniko/build-image.sh
+      shellScript: |-
+        ls -l /
+
+        /kaniko/build-image.sh
     env:
       CACHE_REPO: stefanfritsch/baseimage_statup_cache
       REPO: stefanfritsch/baseimage_statup
