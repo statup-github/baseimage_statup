@@ -13,6 +13,10 @@ RUN echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen \
     
 RUN update-locale
 
+## ATTENTION:
+## This trusts openssh certificates signed by the STAT-UP
+## openssh certificate authority. If you're not us and you intend
+## to enable ssh you should overwrite this file!
 RUN rm -f /etc/ssh/ssh_host_*_key*
 COPY ssh_trusted_ca.pub /etc/ssh/ssh_trusted_ca.pub
 
