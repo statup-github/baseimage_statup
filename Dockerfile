@@ -6,6 +6,8 @@ ENV LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
     TERM=xterm
 
+## French because data.table in R uses the French locale
+## for parsing decimal comma entries.
 RUN echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen \
     && echo "de_DE.UTF-8 UTF-8" >> /etc/locale.gen \
     && locale-gen
@@ -38,9 +40,11 @@ RUN chmod u+x /etc/my_init.d/add-new-users.sh \
               /etc/my_init.d/zzz_run_last.sh
 
 
-RUN apt-get update \
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+  && apt-get update \
   && apt-get upgrade -y -o Dpkg::Options::="--force-confold" \
   && apt-get install -y --no-install-recommends iputils-ping nano wget procps unzip zip curl makepasswd whois \
-  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 CMD ["/sbin/my_init"]
