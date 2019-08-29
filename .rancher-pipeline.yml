@@ -1,18 +1,25 @@
 stages:
-- name: docker build
+- name: docker on tag
   steps:
   - runScriptConfig:
-      image: stefanfritsch/baseimage_statup:1.1
-      shellScript: |-
-        #!/bin/bash -e
-
-        echo "thisisatest" > ./IMAGE_TAG
-  - publishImageConfig:
-      dockerfilePath: ./Dockerfile
-      buildContext: .
-      tag: stefanfritsch/baseimage_statup:$(cat ./IMAGE_TAG)
-      pushRemote: true
-      registry: index.docker.io
+      image: gcr.io/kaniko-project/executor:debug
+      shellScript: "#!/bin/bash -e\n\nWORKDIR=$(pwd)\nTAG=$(echo $CICD_GIT_TAG | sed
+        -e 's%_.*%%')\n\necho \"{\\\"auths\\\":{\\\"stefanfritsch/baseimage_statup\\\":{\\\"username\\\":\\\"$REGISTRY_USER\\\",\\\"password\\\":\\\"$REGISTRY_PASS\\\"}}}\"
+        > /kaniko/.docker/config.json\n\n/kaniko/executor \\\n    --context ${WORKDIR}
+        \\\n    --dockerfile ${WORKDIR}/Dockerfile \\\n    --destination stefanfritsch/baseimage_statup:$TAG
+        \\\n    --cache=true \\\n    --cache-repo=stefanfritsch/baseimage_statup_cache\n
+        \   "
+    envFrom:
+    - sourceName: p-9s6qb-indexdockerio
+      sourceKey: username
+      targetKey: REGISTRY_USER
+    - sourceName: p-9s6qb-indexdockerio
+      sourceKey: password
+      targetKey: REGISTRY_PASS
+  when:
+    event:
+      include:
+      - tag
 timeout: 60
 branch: {}
 notification: {}
