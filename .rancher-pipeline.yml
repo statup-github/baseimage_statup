@@ -1,20 +1,18 @@
 stages:
 - name: docker build
   steps:
+  - runScriptConfig:
+      image: stefanfritsch/baseimage_statup:1.1
+      shellScript: |-
+        #!/bin/bash -e
+
+        echo "thisisatest" > ./IMAGE_TAG
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
       buildContext: .
-      tag: stefanfritsch/baseimage_statup:${CICD_GIT_BRANCH}.${CICD_EXECUTION_SEQUENCE}
-      pushRemote: true
-      registry: index.docker.io
-  - publishImageConfig:
-      dockerfilePath: ./Dockerfile
-      buildContext: .
-      tag: stefanfritsch/baseimage_statup:${CICD_GIT_BRANCH}
+      tag: stefanfritsch/baseimage_statup:$(cat ./IMAGE_TAG)
       pushRemote: true
       registry: index.docker.io
 timeout: 60
-branch:
-  include:
-  - "1.0"
+branch: {}
 notification: {}
