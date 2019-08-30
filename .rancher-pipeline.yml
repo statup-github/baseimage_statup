@@ -8,7 +8,7 @@ stages:
 
         /kaniko/build-image.sh
     env:
-      CACHE_REPO: stefanfritsch/baseimage_statup_cache
+      CACHE: "false"
       REPO: stefanfritsch/baseimage_statup
     envFrom:
     - sourceName: pipeline-registry-dockerhub
