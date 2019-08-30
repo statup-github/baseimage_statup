@@ -1,0 +1,60 @@
+image: docker:19.03.1
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+  REGISTRY_IMAGE: stefanfritsch/$CI_PROJECT_NAME
+
+services:
+  - name: docker:dind
+    entrypoint: ["env", "-u", "DOCKER_HOST"]
+    command: ["dockerd-entrypoint.sh"]
+
+stages:
+  - branches
+  - tags
+
+before_script:
+  - for i in {1..5}; do docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD && break || sleep 10; done
+
+after_script:
+  - docker logout
+
+branches:build:
+  stage: branches
+  except:
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-build/
+  script:
+    - date
+    - echo "${REGISTRY_IMAGE}"
+    - date
+    - docker pull $REGISTRY_IMAGE:latest || true
+    - date
+    - docker build --cache-from $REGISTRY_IMAGE:latest --tag $REGISTRY_IMAGE:latest .
+    - date
+    - docker push $REGISTRY_IMAGE:latest
+    - date
+
+tags:build:
+  stage: tags
+  only:
+    - tags
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /skip-build/
+  script:
+    - date
+    - TAG=$(echo $CI_COMMIT_TAG | sed -e 's%_.*%%')
+    - date
+    - echo "${REGISTRY_IMAGE}:${TAG}"
+    - date
+    - docker pull $REGISTRY_IMAGE:latest || true
+    - date
+    - docker build --cache-from $REGISTRY_IMAGE:latest --tag $REGISTRY_IMAGE:$TAG .
+    - date
+    - docker push $REGISTRY_IMAGE:$TAG
+    - date
